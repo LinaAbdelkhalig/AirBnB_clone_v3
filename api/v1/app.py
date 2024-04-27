@@ -13,6 +13,7 @@ app = Flask(__name__)
 # register the blueprint app_views to app
 app.register_blueprint(app_views)
 
+
 @app.teardown_appcontext
 def teardown(e):
     """ closes the storage """
