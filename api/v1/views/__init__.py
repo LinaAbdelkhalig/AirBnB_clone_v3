@@ -7,3 +7,6 @@ from flask import Blueprint
 
 # create app_views as instance of blueprint
 app_views = Blueprint('app_views', __name__, url_prefix='/api/v1')
+
+# import all other views after creating the BP object
+from api.v1.views import index
