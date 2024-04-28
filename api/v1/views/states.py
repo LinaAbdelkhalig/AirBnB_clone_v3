@@ -19,17 +19,18 @@ def get_states():
 @app_views.route('/states/<state_id>', methods=['GET'], strict_slashes=False)
 def get_state(state_id):
     """gets a specific state"""
-    state = storage.get("State", state_id)
+    state = storage.get(State, state_id)
     if state:
         return jsonify(state.to_dict())
-    abort(404)
+    else:
+        return abort(404)
 
 
 @app_views.route('/states/<state_id>', methods=['DELETE'],
                  strict_slashes=False)
 def delete_state(state_id):
     """deletes a specific state"""
-    state = storage.get("State", state_id)
+    state = storage.get(State, state_id)
     if state:
         storage.delete(state)
         storage.save()
@@ -40,19 +41,24 @@ def delete_state(state_id):
 @app_views.route('/states', methods=['POST'], strict_slashes=False)
 def create_state():
     """creates a state"""
+    if request.content_type != 'application/json':
+        abort(404, 'Not a JSON')
     if not request.get_json():
-        abort(400, 'Not a JSON')
-    if 'name' not in request.get_json():
+        abort(404, 'Not a JSON')
+
+    kwargs = request.get_json()
+    if 'name' not in kwargs:
         abort(400, 'Missing name')
-    state = State(**request.get_json())
+
+    state = State(**kwargs)
     state.save()
-    return jsonify(state.to_dict()), 201
+    return jsonify(state.to_dict()), 200
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
 def update_state(state_id):
     """updates a state"""
-    state = storage.get("State", state_id)
+    state = storage.get(State, state_id)
     if not state:
         abort(404)
     if not request.get_json():
