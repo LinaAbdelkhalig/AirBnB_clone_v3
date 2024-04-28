@@ -42,9 +42,9 @@ def delete_state(state_id):
 def create_state():
     """creates a state"""
     if request.content_type != 'application/json':
-        abort(404, 'Not a JSON')
+        abort(400, 'Not a JSON')
     if not request.get_json():
-        abort(404, 'Not a JSON')
+        abort(400, 'Not a JSON')
 
     kwargs = request.get_json()
     if 'name' not in kwargs:
@@ -52,7 +52,7 @@ def create_state():
 
     state = State(**kwargs)
     state.save()
-    return jsonify(state.to_dict()), 200
+    return jsonify(state.to_dict()), 201
 
 
 @app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
