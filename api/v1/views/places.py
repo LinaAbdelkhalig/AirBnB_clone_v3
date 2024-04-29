@@ -31,7 +31,8 @@ def get_place_byId(place_id):
     return abort(404)
 
 
-@app_views.route('/places/<place_id>', methods=['DELETE'], strict_slashes=False)
+@app_views.route('/places/<place_id>', methods=['DELETE'],
+                 strict_slashes=False)
 def delete_place(place_id):
     """deletes a specific place using its ID"""
     place = storage.get(Place, place_id)
@@ -80,7 +81,8 @@ def update_place(place_id):
         if not request.get_json():
             abort(400, 'Not a JSON')
         for attr, val in request.get_json().items():
-            if attr not in ['id', 'created_at', 'updated_at']:
+            if attr not in ['id', 'user_id', 'city_id',
+                            'created_at', 'updated_at']:
                 setattr(place, attr, val)
         place.save()
         return jsonify(place.to_dict()), 200
