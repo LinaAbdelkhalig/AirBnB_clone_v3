@@ -32,6 +32,6 @@ class User(BaseModel, Base):
             if pas:
                 hashed = hashlib.md5()
                 hashed.update(pas.encode('utf-8'))
-                secured_pas = hasher.hexdigest()
+                secured_pas = hashed.hexdigest()
                 kwargs['password'] = secured_pas
         super().__init__(*args, **kwargs)

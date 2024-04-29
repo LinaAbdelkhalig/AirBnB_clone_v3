@@ -68,7 +68,7 @@ class BaseModel:
         new_dict["__class__"] = self.__class__.__name__
         if "_sa_instance_state" in new_dict:
             del new_dict["_sa_instance_state"]
-        if not dist:
+        if not disk:
             if 'password' in new_dict:
                 del new_dict['password']
         return new_dict
