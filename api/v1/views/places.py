@@ -60,7 +60,7 @@ def create_place(city_id):
     if 'user_id' not in kwargs:
         abort(400, 'Missing user_id')
 
-    user = storage.get(User, data['user_id'])
+    user = storage.get(User, kwargs['user_id'])
     if not user:
         abort(404)
     kwargs['city_id'] = city_id
