@@ -31,7 +31,7 @@ class User(BaseModel, Base):
             pwd = kwargs.pop('password', None)
             if pwd:
                 hashed = hashlib.md5()
-                hashed.update(pas.encode('utf-8'))
+                hashed.update(pwd.encode('utf-8'))
                 secured_pas = hashed.hexdigest()
                 kwargs['password'] = secured_pas
         super().__init__(*args, **kwargs)
